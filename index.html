@@ -1,34 +1,136 @@
 <!DOCTYPE HTML>
-
 <html>
-	<head>
-		<meta charset="utf-8"/> 
-		<style text="text/css"></style>  
-		<title>Juego de Rol</title>
-	</head>
-	<body background="fondo.jpg";>
-		<FORM action="" method="post">
-			<div style="text-align: center">
+<head>
+	<meta charset="utf-8"/> 
+	<style text="text/css"></style>  
+	<title>Juego de Rol</title>
+</head>
+<body background="fondo.jpg" ;>
+	<form id="formulario" action="" onsubmit="event.preventDefault();">
+		<div style="text-align: center">
 			<header>
 				<h1>EL MONTE DEL DESTINO</h1>
 			</header>
 			<br>
-				<h3>INTRODUZCA NOMBRE DE JUGADOR</h3>
-				<LABEL for="nombre">Nombre: </LABEL>
-				<INPUT type="text" id="nombre" required><BR>
-			</div>
-			<div>
-			<p>
-			Hola
-
-
-
-
-
-
+			<h3>INTRODUZCA NOMBRE DE JUGADOR</h3>
+			<LABEL for="nombre">Nombre: </LABEL>
+			<input id="name" type="text" name="name" value="">
+			<br>
+			<br>
+			<div id="button" value="Ver" 
+			onClick="document.getElementById('oculto').style.visibility='visible'">Aceptar</div>
+		</div>
+		<div id="oculto" style="visibility:hidden">
+			<p>Hola <span id="mi_nombre"></span> no te asustes, no te estás volviendo loco, me llamo "Chispitas" y no, no estoy muerto... tengo poderes telequinéticos y te estoy hablando desde una celda desde "El Monte del Destino" ya que me capturaron unos malditos
+				uruk-hai cuando estaba recogiendo información para enviáselo a mis parientes.
+				<br>
+				<br> Y si estás preguntando que tienes que ver tu con todo esto yo tampoco lo se, solo me ha venido tu nombre a la mente...
+				<br>
+				<br> Espero que estés preparado porque estás apunto de enbarcarte en un aventura llena de peligros, traiciones y muerte.
+				<br>
+				<br> Muy bien <span id="mi_nombre"></span> no tenemos tiempo que perder. La ciudad de rivendel está en grave peligro después de que se destrullera en anillo único, el señor del mal "Saurón" ideo otro maléfico plan para destruirnos...¡Espera! antes de seguir contandote los detalles ¿tienes algún tipo de arma?<br>
+				<br>yo: mmm... dejame buscar...
 			</p>
+
+			<div id="inventario" value="Ver" 
+			onClick="document.getElementById('oculto1').style.visibility='visible'">Buscar</div><br>
+			<div id="oculto1" style="visibility:hidden">
+				<p>Aja aquí está!!! encontré mi mochila, tengo <span id="mochila"></span>.<br>
+					Chispitas: Bueno eso y nada es lo mismo... Vale te ayudare!! dirígete hacia el sur y encontraras una pequeña froja, pregunta por rudolf, dile que vas de mi parte y te dará lo que necesites.<br>Yo: vale salgo corriendo para allá. O no!! la puerta no se abre!!<br>(Realiza una tirada de dados para saber las opciones que tienes)
+				</p>
+				<div id="tirar_dados" value="Ver" 
+				onClick="document.getElementById('oculto2').style.visibility='visible'">Tirar Dados</div>
 			</div>
-		</FORM>
-	</body>
+			<div id="oculto2" style="visibility:hidden">
+				<p><span id="daditos"></span>.<br><br>Chispitas: Espera, espera se me olvidó comentarte que también puedo teletrasportarte a donde quiera... jajaja te quería meter miedo, te voy a ahorrar días de andar, ¿estas preparado?, vamos allá!!!.<br><br>Voilá, ya estás frente a la cueva. ¿Dame las gracias no?<br><br>Yo: Dame las gracias tu por estár aquí intentando ayudarte pesado.<br><br>Chispitas: Una última cosa tengo otra sorpresa para tí puedo transformarte en en un gran guerrero, o eso intentaré...<br><br>Yo:Si? estupendo, dale caña que tengo ganas de romper craneos de orco!!!.<br><br>Chispitas: Por el poder que se me ha otorgado allá va (estrellitas y luces azules alrededor del jugador hacen que se transforme en un guerrero grande y musculoso).<br><br>Yo: Dios si parezco Conan!! Mierda un Orco ha aparecido en la entrada de la cueva.</p> 
+				<div id="atacar" value="Ver" 
+				onClick="document.getElementById('oculto3').style.visibility='visible'">Luchar</div>
+				<p><span id="enfrentamiento"></span></p>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript">
+
+  		// Prevenir submit
+
+
+// Esta función se ejecuta solo cuando haya click
+//document.getElementById("formulario").addEventListener("click", function(event){
+//event.preventDefault();
+
+//var name = document.getElementById("formulario").elements.namedItem("name").value;
+//console.log(name);
+//});
+
+document.getElementById("button").addEventListener("click", function() {
+	var name = document.getElementById("formulario").elements.namedItem("name").value;
+	console.log(name);
+	document.getElementById("mi_nombre").innerHTML = name;
+});
+
+document.getElementById("inventario").addEventListener("click", function() {
+	var armas = ["navaja", "bastón", "piedra"];
+
+	document.getElementById("mochila").innerHTML = armas;
+
+});
+
+
+document.getElementById("tirar_dados").addEventListener("click", function() {
+	var opcion=["Me lo he pensado mejor, paso de ayudarte","Espera voy a pedir ayuda","Voy romper la cerradura","Buscaré otra salida","Vete al infierno","Me estoy poniendo nevioso",];
+
+	var resultado = Math.floor(Math.random() * (5 - 0)) + 1;
+
+	var resultado_final = opcion[resultado];
+
+	document.getElementById("daditos").innerHTML = resultado_final;
+
+});
+
+function Heroe(clase){
+
+	switch(clase){
+		case "guerrero":
+		vida:1;
+		defensa:1;
+		Ataque:9;
+
+		break; 
+
+	}
+}
+
+function Monstruo(clase){
+
+	switch(clase){
+		case "ciclope":
+		vida:5;
+		defensa:6;
+		Ataque:9;
+
+		break; 
+
+	}
+}
+
+document.getElementById("atacar").addEventListener("click", function() {
+	
+	var resultado = Heroe.defensa - Monstruo.ataque;
+
+	if(resultado < 0){
+
+		var  combate = Heroe.vida - resultado;
+		document.write("Muerto");
+	}else{
+		document.write("vivo");
+
+	}
+	
+//primero tengo que hacer la primera operacion que seria defensa - ataque y ver si es positivo o negativo y evaluarlo en con un if, si es positivo esque lo ha aguantado la defensa y no me restaria de la vida sino(else) me la restaría.
+
+});
+
+</script>
+</body>
 </html>
 
