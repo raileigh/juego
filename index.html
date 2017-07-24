@@ -5,6 +5,7 @@
 	src="https://code.jquery.com/jquery-3.2.1.js"
 	integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
 	crossorigin="anonymous"></script>
+
 	<style type="text/css">
 		
 		.visible{
@@ -21,45 +22,52 @@
 
 
 	</style>
-	<title></title>
+	<title>JUEGO</title>
 </head>
 <body>
 	<div class="visible">
 		<form id="formulario"> 
-			<label>pon tu nombre</label>
+			<label>INTRODUCE UN NOMBRE PARA TU HEROE</label>
 			<input type="text" name="">
-			<button id="botonNombre" type="submit" value="Aceptar">mandar</button>
-
+			<button id="botonNombre" type="submit" value="Aceptar">Enviar</button>
 		</form>
 	</div>
-<!--CAPA INVENTARIO -->
+	<!--CAPA INVENTARIO -->
 	<div id="datosHeroe" class= "oculto"> <span id="nombreHeroe"></span>
 
-	<ul>
-		<li id="vidaHeroe"></li>
-		<li id="ataqueHeroe"></li>
-		<li id="defensaHeroe"></li>
-	</ul>
+		<ul>
+			<li id="vidaHeroe"></li>
+			<li id="ataqueHeroe"></li>
+			<li id="defensaHeroe"></li>
+		</ul>
 
-</div>
+	</div>
 	<div id="datosMonstruo" class= "oculto"> <span id="nombreMonstruo"></span>
 
-	<ul>
-		<li id="vidaMonstruo"></li>
-		<li id="ataqueMonstruo"></li>
-		<li id="defensaMonstruo"></li>
-	</ul>
-<button id="luchar">Luchar</button>
-</div>
-<div id="gameOver" class="oculto">
-	
-	<H1>FIN DEL JUEGO</H1>
-</div>
+		<ul>
+			<li id="vidaMonstruo"></li>
+			<li id="ataqueMonstruo"></li>
+			<li id="defensaMonstruo"></li>
+		</ul>
+		<button id="luchar">Luchar</button>
+	</div>
+	<div id="gameOver" class="oculto">
+
+		<H1>FIN DEL JUEGO</H1>
+	</div>
+
+	<div id="avanzar" class="oculto">
+
+		<H1>SUPERAS AL MONSTRUO Y SIGUES HACIA ADELANTE</H1>
+	</div>
+	<div id="seguir" class= "oculto">
+		<button id="next">Seguir</button>
+	</div>
 
 	<script type="text/javascript">
 
-	var heroe;
-	var monstruo;
+		var heroe;
+		var monstruo;
 
 		document.getElementById("botonNombre").addEventListener("click", function(event){
 
@@ -134,7 +142,7 @@
 				"vida": Math.floor((Math.random() * contador)+1),
 				"ataque":Math.floor((Math.random() * contador)+1),
 				"defensa":Math.floor((Math.random() * contador)+1)
-				};
+			};
 			return monstruo;
 		}
 
@@ -148,7 +156,7 @@
 			if (defensaMonstruo <0){
 
 				var danio = defensaMonstruo;
-				 monstruo.vida = monstruo.vida + danio;
+				monstruo.vida = monstruo.vida + danio;
 
 
 			}
@@ -168,26 +176,77 @@
 
 			if( heroe.vida<=0){
 				$('#gameOver').removeClass('oculto');
-			$('#gameOver').addClass("visible");
+				$('#gameOver').addClass("visible");
+				$('#datosHeroe').removeClass('visible');
+				$('#datosHeroe').addClass("oculto");
+				$('#datosMonstruo').removeClass('visible');
+				$('#datosMonstruo').addClass("oculto");
 
-			$('#luchar').removeClass('visible');
-			$('#luchar').addClass("oculto");
+				$('#luchar').removeClass('visible');
+				$('#luchar').addClass("oculto");
 
 			}
 
 			// Este bloque hay que hacerlo para el monstruo
-			/*
+			 
 			if( monstruo.vida<=0){
-				$('#gameOver').removeClass('oculto');
-			$('#gameOver').addClass("visible");
+				$('#avanzar').removeClass('oculto');
+				$('#avanzar').addClass("visible");
 
-			$('#luchar').removeClass('visible');
-			$('#luchar').addClass("oculto");
+				$('#luchar').removeClass('visible');
+				$('#luchar').addClass("oculto");
+				$('#seguir').removeClass('oculto');
+				$('#seguir').addClass("visible");
 
 			}
-			*/
 
+			// si los dos mueren
+
+			if( monstruo.vida<=0 && heroe.vida<=0){
+				$('#gameOver').removeClass('oculto');
+				$('#gameOver').addClass("visible");
+
+				$('#avanzar').removeClass('visible');
+				$('#avanzar').addClass("oculto");
+				$('#luchar').removeClass('visible');
+				$('#luchar').addClass("oculto");
+				$('#seguir').removeClass('visible');
+				$('#seguir').addClass("oculto");
+
+			}
 		}
+		// cuando le damos al botón seguir una vez derrotado al monstruo y salir victoriosos
+
+		document.getElementById("next").addEventListener("click", function(event){
+
+			var contador = 6;
+			
+			var heroe = generarHeroe();
+			var monstruo = generarMonstruo(contador);
+
+			console.log(monstruo);
+			console.log(heroe);
+
+			$('#vidaHeroe').text("Vida: "+heroe.vida);
+			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
+			$('#defensaHeroe').text("Defensa: "+heroe.defensa);
+			$('#vidaMonstruo').text("Vida: "+monstruo.vida);
+			$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
+			$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
+
+			$('#datosHeroe').removeClass('oculto');
+			$('#datosHeroe').removeClass("visible");
+			$('#datosMonstruo').removeClass('oculto');
+			$('#datosMonstruo').removeClass("visible");
+
+			$('#avanzar').removeClass('visible');
+			$('#avanzar').addClass("oculto");
+			$('#luchar').removeClass('oculto');
+			$('#luchar').addClass("visible");
+			$('#seguir').removeClass('visible');
+			$('#seguir').addClass("oculto");
+
+		});
 	</script>
 </body>
 </html>
