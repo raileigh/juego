@@ -68,6 +68,7 @@
 
 		var heroe;
 		var monstruo;
+		var nivel;
 
 		document.getElementById("botonNombre").addEventListener("click", function(event){
 
@@ -75,16 +76,19 @@
 
 			$('#formulario').removeClass('visible');
 			$('#formulario').addClass('oculto');
-
-			var contador = 3;
+	
+			// Hacemos set del nivel de inicio del juego
+			var nivel = 3;
+			setNivel(nivel);
+			
 			var nombre = $('#formulario input').val();
 			$('#nombreHeroe').text(nombre);
 
 			var heroe = generarHeroe();
-			var monstruo = generarMonstruo(contador);
+			var monstruo = generarMonstruo(getNivel());
 
-			console.log(monstruo);
-			console.log(heroe);
+			//console.log(monstruo);
+			//console.log(heroe);
 
 			$('#vidaHeroe').text("Vida: "+heroe.vida);
 			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
@@ -137,13 +141,21 @@
 			return monstruo;
 		}
 
-		function generarMonstruo(contador){
+		function generarMonstruo(nivelActual){
 			monstruo = {
-				"vida": Math.floor((Math.random() * contador)+1),
-				"ataque":Math.floor((Math.random() * contador)+1),
-				"defensa":Math.floor((Math.random() * contador)+1)
+				"vida": Math.floor((Math.random() * nivelActual)+1),
+				"ataque":Math.floor((Math.random() * nivelActual)+1),
+				"defensa":Math.floor((Math.random() * nivelActual)+1)
 			};
 			return monstruo;
+		}
+		
+		function setNivel(nuevoNivel){
+			nivel = nuevoNivel;
+		}
+		
+		function getNivel(){
+			return nivel;
 		}
 
 
@@ -218,14 +230,16 @@
 		// cuando le damos al botón seguir una vez derrotado al monstruo y salir victoriosos
 
 		document.getElementById("next").addEventListener("click", function(event){
-
-			var contador = 6;
+			
+			// Incrementamos el nivel y guardamos nuevo nivel
+			var nivel = getNivel()+1;
+			setNivel(nivel);
 			
 			var heroe = generarHeroe();
-			var monstruo = generarMonstruo(contador);
+			var monstruo = generarMonstruo(nivel);
 
-			console.log(monstruo);
-			console.log(heroe);
+			//console.log(monstruo);
+			//console.log(heroe);
 
 			$('#vidaHeroe').text("Vida: "+heroe.vida);
 			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
