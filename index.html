@@ -39,6 +39,7 @@
 			<li id="vidaHeroe"></li>
 			<li id="ataqueHeroe"></li>
 			<li id="defensaHeroe"></li>
+			<li id="oroHeroe"></li>
 		</ul>
 
 	</div>
@@ -48,6 +49,7 @@
 			<li id="vidaMonstruo"></li>
 			<li id="ataqueMonstruo"></li>
 			<li id="defensaMonstruo"></li>
+			<li id="oroMonstruo"></li>
 		</ul>
 		<button id="luchar">Luchar</button>
 	</div>
@@ -69,6 +71,7 @@
 		var heroe;
 		var monstruo;
 		var nivel;
+
 
 		document.getElementById("botonNombre").addEventListener("click", function(event){
 
@@ -93,9 +96,11 @@
 			$('#vidaHeroe').text("Vida: "+heroe.vida);
 			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
 			$('#defensaHeroe').text("Defensa: "+heroe.defensa);
+			$('#oroHeroe').text("Oro: "+heroe.oro);
 			$('#vidaMonstruo').text("Vida: "+monstruo.vida);
 			$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
 			$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
+			$('#oroMonstruo').text("Oro: "+monstruo.oro);
 
 			$('#datosHeroe').removeClass('oculto');
 			$('#datosHeroe').removeClass("visible");
@@ -116,9 +121,11 @@
 			$('#vidaHeroe').text("Vida: "+heroe.vida);
 			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
 			$('#defensaHeroe').text("Defensa: "+heroe.defensa);
+			$('#oroHeroe').text("Oro: "+heroe.oro);
 			$('#vidaMonstruo').text("Vida: "+monstruo.vida);
 			$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
 			$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
+			$('#oroMonstruo').text("Oro: "+monstruo.oro);
 
 			$('#datosHeroe').removeClass('oculto');
 			$('#datosHeroe').removeClass("visible");
@@ -129,7 +136,7 @@
 		});
 
 		function generarHeroe(){
-			heroe = {"vida":3,"ataque":3,"defensa":4};
+			heroe = {"vida":3,"ataque":3,"defensa":4,"oro":10};
 			return heroe;
 		}
 
@@ -145,7 +152,8 @@
 			monstruo = {
 				"vida": Math.floor((Math.random() * nivelActual)+1),
 				"ataque":Math.floor((Math.random() * nivelActual)+1),
-				"defensa":Math.floor((Math.random() * nivelActual)+1)
+				"defensa":Math.floor((Math.random() * nivelActual)+1),
+				"oro":Math.floor((Math.random() * nivelActual)+1)
 			};
 			return monstruo;
 		}
@@ -182,6 +190,17 @@
 				var danio = defensaHeroe;
 				heroe.vida = heroe.vida + danio;
 
+
+			}
+
+			///////////////////////////////CONDICIÓN PARA OBTENER ORO DEL MONSTRUO///////////////////////////////////
+
+			var oroHeroe = heroe.oro + monstruo.oro;
+
+			if( monstruo.vida<=0 && heroe.vida>0){
+				
+				 var oro = oroHeroe;
+				 heroe.oro = heroe.oro + oro;
 
 			}
 
@@ -235,19 +254,20 @@ document.getElementById("next").addEventListener("click", function(event){
 			var nivel = getNivel()+1;
 			setNivel(nivel);
 			
-			var heroe = generarHeroe();
 			var monstruo = generarMonstruo(nivel);
 
 			//console.log(monstruo);
-			//console.log(heroe);
+			
 
 
 			$('#vidaHeroe').text("Vida: "+heroe.vida);
 			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
 			$('#defensaHeroe').text("Defensa: "+heroe.defensa);
+			$('#oroHeroe').text("Oro: "+heroe.oro);
 			$('#vidaMonstruo').text("Vida: "+monstruo.vida);
 			$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
 			$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
+			$('#oroMonstruo').text("Oro: "+monstruo.oro);
 
 			$('#datosHeroe').removeClass('oculto');
 			$('#datosHeroe').removeClass("visible");
