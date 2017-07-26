@@ -217,15 +217,13 @@
 		}
 		// cuando le damos al botón seguir una vez derrotado al monstruo y salir victoriosos
 
-		document.getElementById("next").addEventListener("click", function(event){
+		document.getElementById("next").addEventListener("click", function(monstruo){
 
-			var contador = 6;
-			
-			var heroe = generarHeroe();
+			var contador = 6
+
 			var monstruo = generarMonstruo(contador);
-
 			console.log(monstruo);
-			console.log(heroe);
+			
 
 			$('#vidaHeroe').text("Vida: "+heroe.vida);
 			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
