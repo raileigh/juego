@@ -52,6 +52,7 @@
 			<li id="oroMonstruo"></li>
 		</ul>
 		<button id="luchar">Luchar</button>
+		<button id="comprar">Comprar Pócima</button>
 	</div>
 	<div id="gameOver" class="oculto">
 
@@ -79,7 +80,7 @@
 
 			$('#formulario').removeClass('visible');
 			$('#formulario').addClass('oculto');
-			
+
 			// Hacemos set del nivel de inicio del juego
 			var nivel = 3;
 			setNivel(nivel);
@@ -216,17 +217,21 @@
 
 				$('#luchar').removeClass('visible');
 				$('#luchar').addClass("oculto");
+				$('#comprar').removeClass('visible');
+				$('#comprar').addClass("oculto");
 
 			}
 
 			// Este bloque hay que hacerlo para el monstruo
-			
+
 			if( monstruo.vida<=0){
 				$('#avanzar').removeClass('oculto');
 				$('#avanzar').addClass("visible");
 
 				$('#luchar').removeClass('visible');
 				$('#luchar').addClass("oculto");
+				$('#comprar').removeClass('visible');
+				$('#comprar').addClass("oculto");
 				$('#seguir').removeClass('oculto');
 				$('#seguir').addClass("visible");
 
@@ -242,12 +247,14 @@
 				$('#avanzar').addClass("oculto");
 				$('#luchar').removeClass('visible');
 				$('#luchar').addClass("oculto");
+				$('#comprar').removeClass('visible');
+				$('#comprar').addClass("oculto");
 				$('#seguir').removeClass('visible');
 				$('#seguir').addClass("oculto");
 
 			}
 		}
-		// cuando le damos al botón seguir una vez derrotado al monstruo y salir victoriosos
+		// cuando le damos al botón seguir una vez derrotado al monstruo y salir victoriosos///////////////////
 
 		document.getElementById("next").addEventListener("click", function(event){
 			
@@ -279,8 +286,24 @@
 			$('#avanzar').addClass("oculto");
 			$('#luchar').removeClass('oculto');
 			$('#luchar').addClass("visible");
+			$('#comprar').removeClass('oculto');
+			$('#comprar').addClass("visible");
 			$('#seguir').removeClass('visible');
 			$('#seguir').addClass("oculto");
+
+		});
+
+		//Cuando le damos al botón comprar pócima///////////////////////////////////////////////////////
+
+		document.getElementById("comprar").addEventListener("click", function(event){
+			
+			
+			var pocion = Math.floor((Math.random() * 3)+1);
+			//console.log(pocion);
+			heroe.vida = heroe.vida + pocion;
+			//console.log(heroe.vida);
+
+			$('#vidaHeroe').text("Vida: "+heroe.vida);
 
 		});
 	</script>
