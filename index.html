@@ -79,7 +79,7 @@
 
 			$('#formulario').removeClass('visible');
 			$('#formulario').addClass('oculto');
-	
+			
 			// Hacemos set del nivel de inicio del juego
 			var nivel = 3;
 			setNivel(nivel);
@@ -178,8 +178,8 @@
 				var danio = defensaMonstruo;
 				monstruo.vida = monstruo.vida + danio;
 
-
 			}
+
 
 			// Ataque Monstruo 
 
@@ -195,12 +195,13 @@
 
 			///////////////////////////////CONDICIÓN PARA OBTENER ORO DEL MONSTRUO///////////////////////////////////
 
-			var oroHeroe = heroe.oro + monstruo.oro;
+			var oroMonstruo = monstruo.oro;
 
 			if( monstruo.vida<=0 && heroe.vida>0){
 				
-				 var oro = oroHeroe;
-				 heroe.oro = heroe.oro + oro;
+				var oro = oroMonstruo;
+				heroe.oro = heroe.oro + oro;
+				monstruo.oro = monstruo.oro - oro;
 
 			}
 
@@ -219,7 +220,7 @@
 			}
 
 			// Este bloque hay que hacerlo para el monstruo
-			 
+			
 			if( monstruo.vida<=0){
 				$('#avanzar').removeClass('oculto');
 				$('#avanzar').addClass("visible");
@@ -248,7 +249,7 @@
 		}
 		// cuando le damos al botón seguir una vez derrotado al monstruo y salir victoriosos
 
-document.getElementById("next").addEventListener("click", function(event){
+		document.getElementById("next").addEventListener("click", function(event){
 			
 			// Incrementamos el nivel y guardamos nuevo nivel
 			var nivel = getNivel()+1;
