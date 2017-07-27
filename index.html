@@ -58,7 +58,6 @@
 
 		<H1>FIN DEL JUEGO</H1>
 	</div>
-
 	<div id="avanzar" class="oculto">
 
 		<H1>SUPERAS AL MONSTRUO Y SIGUES HACIA ADELANTE</H1>
@@ -299,11 +298,21 @@
 			
 			
 			var pocion = Math.floor((Math.random() * 3)+1);
-			//console.log(pocion);
 			heroe.vida = heroe.vida + pocion;
-			//console.log(heroe.vida);
-
 			$('#vidaHeroe').text("Vida: "+heroe.vida);
+			
+			var oroHeroe = heroe.oro;
+			var costePocion = oroHeroe - 3;
+			heroe.oro = costePocion;
+			
+			$('#oroHeroe').text("Oro: "+heroe.oro);
+
+			if(heroe.oro<3){
+
+				$('#comprar').removeClass('visible');
+				$('#comprar').addClass("oculto");
+
+			}
 
 		});
 	</script>
