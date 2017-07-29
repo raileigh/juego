@@ -54,6 +54,7 @@
 		<button id="luchar">Luchar</button>
 		<button id="comprar">Comprar Pócima</button>
 	</div>
+	<div id="eventos"></div>
 	<div id="gameOver" class="oculto">
 
 		<H1>FIN DEL JUEGO</H1>
@@ -262,22 +263,40 @@
 
 			if(tiradaDado >=0 && <=9){
 
+				$('#eventos').text("Te has encontrado con un monstruo");
 				var monstruo = generarMonstruo(getnivel);
+
+				$('#vidaMonstruo').text("Vida: "+monstruo.vida);
+				$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
+				$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
+				$('#oroMonstruo').text("Oro: "+monstruo.oro);
 
 			}else if (tiradaDado >=10 && <=15){
 
-
-				heroe.vida = heroe.vida - generarTrampa();
+				var danioTrampa = generarTrampa();
+				heroe.vida = heroe.vida - danioTrampa;
+				$('#eventos').text("¡¡¡Has caido en una trampa!!!");
+				setTimeout(function(){
+				$('#eventos').text("Has perdido :" + danioTrampa);
+				}
+				, 3000);// inyectar un carrusel de eventos para avisar lo que esta pasando al jugador
 
 
 			}else if(tiradaDado >=16 && <=19){
 
+				$('#eventos').text("Has encontrado un misterioso cofre, ¿que tendrá?");
 				heroe = generarTesoro(heroe, getNivel());
 
 
 			}else if (tiradaDado = 20){
 
-				var escalera = subirEscalera(getnivel());
+				subirEscalera(getnivel());
+				var monstruo = generarMonstruo(getnivel);
+
+				$('#vidaMonstruo').text("Vida: "+monstruo.vida);
+				$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
+				$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
+				$('#oroMonstruo').text("Oro: "+monstruo.oro);
 
 
 			}else{
@@ -297,10 +316,7 @@
 			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
 			$('#defensaHeroe').text("Defensa: "+heroe.defensa);
 			$('#oroHeroe').text("Oro: "+heroe.oro);
-			$('#vidaMonstruo').text("Vida: "+monstruo.vida);
-			$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
-			$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
-			$('#oroMonstruo').text("Oro: "+monstruo.oro);
+			
 
 			$('#datosHeroe').removeClass('oculto');
 			$('#datosHeroe').removeClass("visible");
