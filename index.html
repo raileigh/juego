@@ -151,10 +151,10 @@
 
 		function generarMonstruo(nivelActual){
 			monstruo = {
-				"vida": Math.floor((Math.random() * nivelActual)+1),
-				"ataque":Math.floor((Math.random() * nivelActual)+1),
-				"defensa":Math.floor((Math.random() * nivelActual)+1),
-				"oro":Math.floor((Math.random() * nivelActual)+1)
+				"vida": generaRandom(1,nivelActual),
+				"ataque":generaRandom(1,nivelActual),
+				"defensa":generaRandom(1,nivelActual),
+				"oro":generaRandom(1,nivelActual)
 			};
 			return monstruo;
 		}
@@ -172,7 +172,7 @@
 		function luchaHeroe(heroe,monstruo){
 
 			// Ataque Heroe
-			var defensaMonstruo = monstruo.defensa - (heroe.ataque+(Math.floor((Math.random() * 6)+1)));
+			var defensaMonstruo = monstruo.defensa - (heroe.ataque+generaRandom(1,6));
 
 			if (defensaMonstruo <0){
 
@@ -184,7 +184,7 @@
 
 			// Ataque Monstruo 
 
-			var defensaHeroe = heroe.defensa - (monstruo.ataque+(Math.floor((Math.random() * 6)+1)));
+			var defensaHeroe = heroe.defensa - (monstruo.ataque+generaRandom(1,6));
 
 			if (defensaHeroe <0){
 
@@ -257,50 +257,45 @@
 
 		function generarTesoro(heroe,nivelActual){
 
-			var item = Math.floor((Math.random() * 10)+1);
-			switch(item){
-				case 1:
-				case 2:
-				var oro = Math.floor((Math.random() * nivelActual)+0);
+			var item = generaRandom(1,10);
+			
+			if(item >=1 && item <=2){
+
+				var oro = generaRandom(0,nivelActual);
 				heroe.oro = heroe.oro + oro;
 				setTimeout(function(){
 					$('#eventos').text("Encuentras una bolsa con "+oro+ " de oro");
 				},3000);
-				break;
+			}else if(item >=3 && item <=5){
 
-				case 3:
-				case 4:
-				case 5:
-				var vida = Math.floor((Math.random() * nivelActual)+0);
+				var vida =generaRandom(0,nivelActual);
 				heroe.vida = heroe.vida + vida;
 				setTimeout(function(){
 					$('#eventos').text("Encuentras una pocion de "+vida+ " de vida");
 				},3000);
-				break;
+			}else{
+
 				setTimeout(function(){
 					$('#eventos').text("Encuentras un cofre lleno de telarañas");
 				},3000);
-				default:
-
-				break;
-			}	
+			}
 
 			return heroe;
 
 		}
 
 		function generarTrampa(){
-				var nivelTrampa = Math.floor((Math.random() * 3)+1);
+				var nivelTrampa = generaRandom(1,3);
 				switch(nivelTrampa){
 					case 1:
-						danioTrampa = Math.floor((Math.random() * 3)+1);
+						danioTrampa = generaRandom(1,3);
 					break;
 
 					case 2:
-						danioTrampa = Math.floor((Math.random() * 8)+4);
+						danioTrampa = generaRandom(4,8);
 					break;
 					case 3:
-						danioTrampa = Math.floor((Math.random() * 10)+9);
+						danioTrampa = generaRandom(9,10);
 					break;
 
 					default:
@@ -313,44 +308,56 @@
 		function subirEscalera(nivelActual){
 			setNivel(nivelActual+1);
 		}
+
+		function generaRandom(min,max){
+			max=max + 1;
+			var numeroAleatorio = Math.floor((Math.random() * (max-min)+min));
+			return numeroAleatorio;
+		}
+
 		// cuando le damos al botón seguir una vez derrotado al monstruo y salir victoriosos///////////////////
 
 		document.getElementById("next").addEventListener("click", function(event){
 			
 			
-			var tiradaDado = Math.floor((Math.random() * 20)+1);
+			var tiradaDado = generaRandom(1,20);
 
-			if(tiradaDado >=0 && <=9){
+			if(tiradaDado >=0 && tiradaDado <=9){
 
 				$('#eventos').text("Te has encontrado con un monstruo");
-				var monstruo = generarMonstruo(getnivel);
+				var monstruo = generarMonstruo(getNivel());
+				console.log(monstruo);
 
 				$('#vidaMonstruo').text("Vida: "+monstruo.vida);
 				$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
 				$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
 				$('#oroMonstruo').text("Oro: "+monstruo.oro);
 
-			}else if (tiradaDado >=10 && <=15){
+			}else if (tiradaDado >=10 && tiradaDado<=15){
 
 				var danioTrampa = generarTrampa();
-				heroe.vida = heroe.vida - danioTrampa;
 				$('#eventos').text("¡¡¡Has caido en una trampa!!!");
 				setTimeout(function(){
 				$('#eventos').text("Has perdido :" + danioTrampa);
+				heroe.vida = heroe.vida - danioTrampa;
+				$('#vidaHeroe').text("Vida: "+heroe.vida);
 				}
-				, 3000);// inyectar un carrusel de eventos para avisar lo que esta pasando al jugador
+				, 4000);// inyectar un carrusel de eventos para avisar lo que esta pasando al jugador
+				
 
-
-			}else if(tiradaDado >=16 && <=19){
+			}else if(tiradaDado >=16 && tiradaDado<=19){
 
 				$('#eventos').text("Has encontrado un misterioso cofre, ¿que tendrá?");
 				heroe = generarTesoro(heroe, getNivel());
+				
 
 
 			}else if (tiradaDado = 20){
 
-				subirEscalera(getnivel());
-				var monstruo = generarMonstruo(getnivel);
+				subirEscalera(getNivel());
+				var monstruo = generarMonstruo(getNivel());
+				
+
 
 				$('#vidaMonstruo').text("Vida: "+monstruo.vida);
 				$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
@@ -360,7 +367,7 @@
 
 			}else{
 
-					document.write(Se ha producido un error en la aplicación, contacte con el administrador);
+					document.write("Se ha producido un error en la aplicación, contacte con el administrador");
 
 			}
 			
@@ -369,7 +376,6 @@
 
 			//console.log(monstruo);
 			
-
 
 			$('#vidaHeroe').text("Vida: "+heroe.vida);
 			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
@@ -398,7 +404,7 @@
 		document.getElementById("comprar").addEventListener("click", function(event){
 			
 			
-			var pocion = Math.floor((Math.random() * 3)+1);
+			var pocion = generaRandom(1,3);
 			heroe.vida = heroe.vida + pocion;
 			$('#vidaHeroe').text("Vida: "+heroe.vida);
 			
