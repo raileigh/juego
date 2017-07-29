@@ -254,6 +254,65 @@
 
 			}
 		}
+
+		function generarTesoro(heroe,nivelActual){
+
+			var item = Math.floor((Math.random() * 10)+1);
+			switch(item){
+				case 1:
+				case 2:
+				var oro = Math.floor((Math.random() * nivelActual)+0);
+				heroe.oro = heroe.oro + oro;
+				setTimeout(function(){
+					$('#eventos').text("Encuentras una bolsa con "+oro+ " de oro");
+				},3000);
+				break;
+
+				case 3:
+				case 4:
+				case 5:
+				var vida = Math.floor((Math.random() * nivelActual)+0);
+				heroe.vida = heroe.vida + vida;
+				setTimeout(function(){
+					$('#eventos').text("Encuentras una pocion de "+vida+ " de vida");
+				},3000);
+				break;
+				setTimeout(function(){
+					$('#eventos').text("Encuentras un cofre lleno de telarañas");
+				},3000);
+				default:
+
+				break;
+			}	
+
+			return heroe;
+
+		}
+
+		function generarTrampa(){
+				var nivelTrampa = Math.floor((Math.random() * 3)+1);
+				switch(nivelTrampa){
+					case 1:
+						danioTrampa = Math.floor((Math.random() * 3)+1);
+					break;
+
+					case 2:
+						danioTrampa = Math.floor((Math.random() * 8)+4);
+					break;
+					case 3:
+						danioTrampa = Math.floor((Math.random() * 10)+9);
+					break;
+
+					default:
+						danioTrampa = 5;
+				}
+
+				return danioTrampa;
+		}
+
+		function subirEscalera(nivelActual){
+			setNivel(nivelActual+1);
+		}
 		// cuando le damos al botón seguir una vez derrotado al monstruo y salir victoriosos///////////////////
 
 		document.getElementById("next").addEventListener("click", function(event){
