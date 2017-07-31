@@ -315,6 +315,13 @@
 			return numeroAleatorio;
 		}
 
+		function gestionarVistas(visible,oculto){
+
+			$('#').removeClass('visible');
+			$('#').addClass("oculto");
+
+		}
+
 		// cuando le damos al botón seguir una vez derrotado al monstruo y salir victoriosos///////////////////
 
 		document.getElementById("next").addEventListener("click", function(event){
@@ -384,9 +391,8 @@
 			
 
 			$('#datosHeroe').removeClass('oculto');
-			$('#datosHeroe').removeClass("visible");
 			$('#datosMonstruo').removeClass('oculto');
-			$('#datosMonstruo').removeClass("visible");
+			
 
 			$('#avanzar').removeClass('visible');
 			$('#avanzar').addClass("oculto");
