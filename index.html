@@ -89,24 +89,15 @@
 			$('#nombreHeroe').text(nombre);
 
 			var heroe = generarHeroe();
-			var monstruo = generarMonstruo(getNivel());
-
-			//console.log(monstruo);
-			//console.log(heroe);
+			
 
 			$('#vidaHeroe').text("Vida: "+heroe.vida);
 			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
 			$('#defensaHeroe').text("Defensa: "+heroe.defensa);
 			$('#oroHeroe').text("Oro: "+heroe.oro);
-			$('#vidaMonstruo').text("Vida: "+monstruo.vida);
-			$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
-			$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
-			$('#oroMonstruo').text("Oro: "+monstruo.oro);
-
-			$('#datosHeroe').removeClass('oculto');
-			$('#datosHeroe').removeClass("visible");
-			$('#datosMonstruo').removeClass('oculto');
-			$('#datosMonstruo').removeClass("visible");
+			
+			activarVista('datosHeroe');
+			activarVista('seguir');
 
 		});
 
@@ -128,10 +119,8 @@
 			$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
 			$('#oroMonstruo').text("Oro: "+monstruo.oro);
 
-			$('#datosHeroe').removeClass('oculto');
-			$('#datosHeroe').removeClass("visible");
-			$('#datosMonstruo').removeClass('oculto');
-			$('#datosMonstruo').removeClass("visible");
+			activarVista('datosHeroe');
+			activarVista('datosMonstruo');
 
 
 		});
@@ -166,7 +155,6 @@
 		function getNivel(){
 			return nivel;
 		}
-
 
 
 		function luchaHeroe(heroe,monstruo){
@@ -208,49 +196,36 @@
 
 
 			if( heroe.vida<=0){
-				$('#gameOver').removeClass('oculto');
-				$('#gameOver').addClass("visible");
-				$('#datosHeroe').removeClass('visible');
-				$('#datosHeroe').addClass("oculto");
-				$('#datosMonstruo').removeClass('visible');
-				$('#datosMonstruo').addClass("oculto");
+				activarVista('gameOver');
+				desactivarVista('datosHeroe');
+				desactivarVista('datosMonstruo');
 
-				$('#luchar').removeClass('visible');
-				$('#luchar').addClass("oculto");
-				$('#comprar').removeClass('visible');
-				$('#comprar').addClass("oculto");
+				desactivarVista('luchar');
+				desactivarVista('comprar');
 
 			}
 
 			// Este bloque hay que hacerlo para el monstruo
 
 			if( monstruo.vida<=0){
-				$('#avanzar').removeClass('oculto');
-				$('#avanzar').addClass("visible");
+				activarVista('avanzar');
 
-				$('#luchar').removeClass('visible');
-				$('#luchar').addClass("oculto");
-				$('#comprar').removeClass('visible');
-				$('#comprar').addClass("oculto");
-				$('#seguir').removeClass('oculto');
-				$('#seguir').addClass("visible");
+				desactivarVista('luchar');
+				desactivarVista('comprar');
+				activarVista('seguir');
 
 			}
 
 			// si los dos mueren
 
 			if( monstruo.vida<=0 && heroe.vida<=0){
-				$('#gameOver').removeClass('oculto');
-				$('#gameOver').addClass("visible");
 
-				$('#avanzar').removeClass('visible');
-				$('#avanzar').addClass("oculto");
-				$('#luchar').removeClass('visible');
-				$('#luchar').addClass("oculto");
-				$('#comprar').removeClass('visible');
-				$('#comprar').addClass("oculto");
-				$('#seguir').removeClass('visible');
-				$('#seguir').addClass("oculto");
+				activarVista('gameOver');
+			
+				desactivarVista('avanzar');
+				desactivarVista('luchar');
+				desactivarVista('comprar');
+				desactivarVista('seguir');
 
 			}
 		}
@@ -315,10 +290,17 @@
 			return numeroAleatorio;
 		}
 
-		function gestionarVistas(visible,oculto){
+		function activarVista(id){
 
-			$('#').removeClass('visible');
-			$('#').addClass("oculto");
+			$('#'+ id).removeClass('oculto');
+			$('#'+id).addClass("visible");
+
+		}
+
+		function desactivarVista(id){
+
+			$('#'+ id).removeClass('visible');
+			$('#'+id).addClass("oculto");
 
 		}
 
@@ -342,21 +324,40 @@
 
 			}else if (tiradaDado >=10 && tiradaDado<=15){
 
+				
 				var danioTrampa = generarTrampa();
 				$('#eventos').text("¡¡¡Has caido en una trampa!!!");
+
 				setTimeout(function(){
-				$('#eventos').text("Has perdido :" + danioTrampa);
+				$('#eventos').text("Has perdido : " + danioTrampa + " puntos de vida.");
 				heroe.vida = heroe.vida - danioTrampa;
-				$('#vidaHeroe').text("Vida: "+heroe.vida);
-				}
-				, 4000);// inyectar un carrusel de eventos para avisar lo que esta pasando al jugador
 				
 
+				if(heroe.vida<=0){
+
+					activarVista('gameOver');
+					desactivarVista('datosMonstruo');
+
+					desactivarVista('luchar');
+					desactivarVista('comprar');
+				}
+
+				$('#vidaHeroe').text("Vida: "+heroe.vida);
+				}
+				, 3000);// inyectar un carrusel de eventos para avisar lo que esta pasando al jugador
+					
+					
 			}else if(tiradaDado >=16 && tiradaDado<=19){
 
 				$('#eventos').text("Has encontrado un misterioso cofre, ¿que tendrá?");
 				heroe = generarTesoro(heroe, getNivel());
-				
+
+				$('#vidaMonstruo').text("Vida: "+monstruo.vida);
+				$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
+				$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
+				$('#oroMonstruo').text("Oro: "+monstruo.oro);
+
+				activarVista('comprar');				
 
 
 			}else if (tiradaDado = 20){
@@ -372,13 +373,15 @@
 				$('#oroMonstruo').text("Oro: "+monstruo.oro);
 
 
+			}else if (tiradaDado <10 && tiradaDado>15){
+
+				activarVista('comprar');
+
 			}else{
 
 					document.write("Se ha producido un error en la aplicación, contacte con el administrador");
 
 			}
-			
-			
 			
 
 			//console.log(monstruo);
@@ -390,18 +393,16 @@
 			$('#oroHeroe').text("Oro: "+heroe.oro);
 			
 
-			$('#datosHeroe').removeClass('oculto');
-			$('#datosMonstruo').removeClass('oculto');
+			activarVista('datosHeroe');
+			activarVista('datosMonstruo');
+			
 			
 
-			$('#avanzar').removeClass('visible');
-			$('#avanzar').addClass("oculto");
-			$('#luchar').removeClass('oculto');
-			$('#luchar').addClass("visible");
-			$('#comprar').removeClass('oculto');
-			$('#comprar').addClass("visible");
-			$('#seguir').removeClass('visible');
-			$('#seguir').addClass("oculto");
+			desactivarVista('avanzar');
+			activarVista('luchar');
+			activarVista('comprar');
+			desactivarVista('seguir');
+			
 
 		});
 
@@ -422,8 +423,7 @@
 
 			if(heroe.oro<3){
 
-				$('#comprar').removeClass('visible');
-				$('#comprar').addClass("oculto");
+				desactivarVista('comprar');
 
 			}
 
