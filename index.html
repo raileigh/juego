@@ -221,7 +221,7 @@
 			if( monstruo.vida<=0 && heroe.vida<=0){
 
 				activarVista('gameOver');
-			
+
 				desactivarVista('avanzar');
 				desactivarVista('luchar');
 				desactivarVista('comprar');
@@ -238,20 +238,31 @@
 
 				var oro = generaRandom(0,nivelActual);
 				heroe.oro = heroe.oro + oro;
+				
 				setTimeout(function(){
 					$('#eventos').text("Encuentras una bolsa con "+oro+ " de oro");
+					heroe.oro = heroe.oro + oro;
+					activarVista('seguir');
+					desactivarVista('datosMonstruo');
 				},3000);
 			}else if(item >=3 && item <=5){
 
 				var vida =generaRandom(0,nivelActual);
 				heroe.vida = heroe.vida + vida;
+				
 				setTimeout(function(){
 					$('#eventos').text("Encuentras una pocion de "+vida+ " de vida");
+					heroe.vida = heroe.vida + vida;
+					activarVista('seguir');
+					desactivarVista('datosMonstruo');
 				},3000);
 			}else{
 
 				setTimeout(function(){
 					$('#eventos').text("Encuentras un cofre lleno de telarañas");
+					activarVista('seguir');
+					desactivarVista('datosMonstruo');
+					
 				},3000);
 			}
 
@@ -260,24 +271,24 @@
 		}
 
 		function generarTrampa(){
-				var nivelTrampa = generaRandom(1,3);
-				switch(nivelTrampa){
-					case 1:
-						danioTrampa = generaRandom(1,3);
-					break;
+			var nivelTrampa = generaRandom(1,3);
+			switch(nivelTrampa){
+				case 1:
+				danioTrampa = generaRandom(1,3);
+				break;
 
-					case 2:
-						danioTrampa = generaRandom(4,8);
-					break;
-					case 3:
-						danioTrampa = generaRandom(9,10);
-					break;
+				case 2:
+				danioTrampa = generaRandom(4,8);
+				break;
+				case 3:
+				danioTrampa = generaRandom(9,10);
+				break;
 
-					default:
-						danioTrampa = 5;
-				}
+				default:
+				danioTrampa = 5;
+			}
 
-				return danioTrampa;
+			return danioTrampa;
 		}
 
 		function subirEscalera(nivelActual){
@@ -322,42 +333,43 @@
 				$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
 				$('#oroMonstruo').text("Oro: "+monstruo.oro);
 
+				activarVista('luchar');
+				activarVista('comprar')
+
 			}else if (tiradaDado >=10 && tiradaDado<=15){
 
-				
 				var danioTrampa = generarTrampa();
 				$('#eventos').text("¡¡¡Has caido en una trampa!!!");
 
 				setTimeout(function(){
-				$('#eventos').text("Has perdido : " + danioTrampa + " puntos de vida.");
-				heroe.vida = heroe.vida - danioTrampa;
-				
+					$('#eventos').text("Has perdido : " + danioTrampa + " puntos de vida.");
+					heroe.vida = heroe.vida - danioTrampa;
+					activarVista('seguir');
 
-				if(heroe.vida<=0){
 
-					activarVista('gameOver');
-					desactivarVista('datosMonstruo');
+					if(heroe.vida<=0){
 
-					desactivarVista('luchar');
-					desactivarVista('comprar');
-				}
+						$('#eventos').text("¡¡¡Has muerto!!!");
+						activarVista('gameOver');
+						desactivarVista('datosMonstruo');
+						desactivarVista('luchar');
+						desactivarVista('comprar');
+						desactivarVista('seguir');
+					}
 
-				$('#vidaHeroe').text("Vida: "+heroe.vida);
+					$('#vidaHeroe').text("Vida: "+heroe.vida);
 				}
 				, 3000);// inyectar un carrusel de eventos para avisar lo que esta pasando al jugador
-					
-					
+				
+
 			}else if(tiradaDado >=16 && tiradaDado<=19){
 
 				$('#eventos').text("Has encontrado un misterioso cofre, ¿que tendrá?");
 				heroe = generarTesoro(heroe, getNivel());
 
-				$('#vidaMonstruo').text("Vida: "+monstruo.vida);
-				$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
-				$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
-				$('#oroMonstruo').text("Oro: "+monstruo.oro);
-
-				activarVista('comprar');				
+				desactivarVista('comprar');	
+				desactivarVista('luchar');
+				activarVista('seguir');
 
 
 			}else if (tiradaDado = 20){
@@ -379,14 +391,15 @@
 
 			}else{
 
-					document.write("Se ha producido un error en la aplicación, contacte con el administrador");
+				document.write("Se ha producido un error en la aplicación, contacte con el administrador");
 
 			}
 			
 
 			//console.log(monstruo);
-			
 
+		
+			
 			$('#vidaHeroe').text("Vida: "+heroe.vida);
 			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
 			$('#defensaHeroe').text("Defensa: "+heroe.defensa);
@@ -395,14 +408,13 @@
 
 			activarVista('datosHeroe');
 			activarVista('datosMonstruo');
-			
-			
 
 			desactivarVista('avanzar');
 			activarVista('luchar');
 			activarVista('comprar');
 			desactivarVista('seguir');
 			
+	
 
 		});
 
