@@ -192,10 +192,13 @@
 				heroe.oro = heroe.oro + oro;
 				monstruo.oro = monstruo.oro - oro;
 
+
 			}
 
 
 			if( heroe.vida<=0){
+				
+				$('#eventos').text("¡¡¡Has muerto!!!");
 				activarVista('gameOver');
 				desactivarVista('datosHeroe');
 				desactivarVista('datosMonstruo');
@@ -334,7 +337,17 @@
 				$('#oroMonstruo').text("Oro: "+monstruo.oro);
 
 				activarVista('luchar');
-				activarVista('comprar')
+				activarVista('comprar');
+
+
+				if( monstruo.vida<=0 && heroe.vida>0){
+				desactivarVista('avanzar');
+				desactivarVista('eventos');
+				desactivarVista('luchar');
+				desactivarVista('comprar');
+				activarVista('seguir');
+
+			}
 
 			}else if (tiradaDado >=10 && tiradaDado<=15){
 
@@ -363,23 +376,26 @@
 				, 3000);// inyectar un carrusel de eventos para avisar lo que esta pasando al jugador
 				
 
-			}else if(tiradaDado >=16 && tiradaDado<=19){
+			}else if(tiradaDado >=16 && tiradaDado<19){
 
 				$('#eventos').text("Has encontrado un misterioso cofre, ¿que tendrá?");
 				heroe = generarTesoro(heroe, getNivel());
 
+				setTimeout(function(){
+				desactivarVista('datosMonstruo');
 				desactivarVista('comprar');	
 				desactivarVista('luchar');
 				activarVista('seguir');
+				}
+				, 3000);
+			}else if (tiradaDado >=19  && tiradaDado<=20){
 
-
-			}else if (tiradaDado = 20){
-
+				
 				subirEscalera(getNivel());
 				var monstruo = generarMonstruo(getNivel());
 				
 
-
+				$('#eventos').text("Has encontrado una escalera, ten cuidado");
 				$('#vidaMonstruo').text("Vida: "+monstruo.vida);
 				$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
 				$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
@@ -412,6 +428,15 @@
 			desactivarVista('comprar');
 			desactivarVista('avanzar');
 			desactivarVista('seguir');
+
+			}else if(tiradaDado >=16 && tiradaDado<=19){
+
+				desactivarVista('datosMonstruo');
+				desactivarVista('comprar');	
+				desactivarVista('luchar');
+				desactivarVista('avanzar');
+				desactivarVista('seguir');
+
 
 			}else{
 
