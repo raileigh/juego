@@ -33,7 +33,7 @@
 		</form>
 	</div>
 	<!--CAPA INVENTARIO -->
-	<div id="datosHeroe" class= "oculto">Mi nombre es <span id="nombreHeroe"></span>, el mejor guerrero de las montañas heladas, también apodado como el guerrero olvidado.
+	<div id="datosHeroe" class= "oculto">Mi nombre es <span id="nombreHeroe"></span>, el mejor guerrero de las montañas heladas, también apodado como "el guerrero olvidado".
 
 		<ul>
 			<li id="vidaHeroe"></li>
@@ -355,6 +355,7 @@
 						desactivarVista('luchar');
 						desactivarVista('comprar');
 						desactivarVista('seguir');
+						desactivarVista('avanzar');
 					}
 
 					$('#vidaHeroe').text("Vida: "+heroe.vida);
@@ -405,6 +406,14 @@
 			$('#defensaHeroe').text("Defensa: "+heroe.defensa);
 			$('#oroHeroe').text("Oro: "+heroe.oro);
 			
+			if(tiradaDado >=10 && tiradaDado<=15){
+
+			desactivarVista('luchar');
+			desactivarVista('comprar');
+			desactivarVista('avanzar');
+			desactivarVista('seguir');
+
+			}else{
 
 			activarVista('datosHeroe');
 			activarVista('datosMonstruo');
@@ -413,6 +422,8 @@
 			activarVista('luchar');
 			activarVista('comprar');
 			desactivarVista('seguir');
+			
+			}
 			
 	
 
