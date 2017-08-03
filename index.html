@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8">
 	<script
 	src="https://code.jquery.com/jquery-3.2.1.js"
 	integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
@@ -357,24 +358,27 @@
 				setTimeout(function(){
 					$('#eventos').text("Has perdido : " + danioTrampa + " puntos de vida.");
 					heroe.vida = heroe.vida - danioTrampa;
-					activarVista('seguir');
-
-
-					if(heroe.vida<=0){
-
-						$('#eventos').text("¡¡¡Has muerto!!!");
-						activarVista('gameOver');
-						desactivarVista('datosMonstruo');
-						desactivarVista('luchar');
-						desactivarVista('comprar');
-						desactivarVista('seguir');
-						desactivarVista('avanzar');
-					}
 
 					$('#vidaHeroe').text("Vida: "+heroe.vida);
+					
 				}
 				, 3000);// inyectar un carrusel de eventos para avisar lo que esta pasando al jugador
-				
+
+				setTimeout(function(){
+						if(heroe.vida<=0){
+
+							$('#eventos').text("¡¡¡Has muerto!!!");
+							activarVista('gameOver');
+							desactivarVista('datosMonstruo');
+							desactivarVista('luchar');
+							desactivarVista('comprar');
+							desactivarVista('seguir');
+							desactivarVista('avanzar');
+						}else{
+							activarVista('seguir');
+						}
+				}
+				, 6000);
 
 			}else if(tiradaDado >=16 && tiradaDado<19){
 
