@@ -96,9 +96,8 @@
 			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
 			$('#defensaHeroe').text("Defensa: "+heroe.defensa);
 			$('#oroHeroe').text("Oro: "+heroe.oro);
-			
-			activarVista('datosHeroe');
-			activarVista('seguir');
+
+			activarVistas(["datosHeroe","seguir"]);	
 
 		});
 
@@ -120,9 +119,7 @@
 			$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
 			$('#oroMonstruo').text("Oro: "+monstruo.oro);
 
-			activarVista('datosHeroe');
-			activarVista('datosMonstruo');
-
+			activarVistas(["datosHeroe","datosMonstruo"]);	
 
 		});
 
@@ -200,37 +197,23 @@
 			if( heroe.vida<=0){
 				
 				$('#eventos').text("¡¡¡Has muerto!!!");
-				activarVista('gameOver');
-				desactivarVista('datosHeroe');
-				desactivarVista('datosMonstruo');
-
-				desactivarVista('luchar');
-				desactivarVista('comprar');
-
+				activarVistas(['gameOver']);
+				desactivarVistas(["datosHeroe","datosMonstruo","luchar","comprar"]);
 			}
 
 			// Este bloque hay que hacerlo para el monstruo
 
 			if( monstruo.vida<=0){
-				activarVista('avanzar');
-
-				desactivarVista('luchar');
-				desactivarVista('comprar');
-				activarVista('seguir');
-
+				desactivarVistas(["luchar","comprar"]);
+				activarVistas(["avanzar","seguir"]);
 			}
 
 			// si los dos mueren
 
 			if( monstruo.vida<=0 && heroe.vida<=0){
 
-				activarVista('gameOver');
-
-				desactivarVista('avanzar');
-				desactivarVista('luchar');
-				desactivarVista('comprar');
-				desactivarVista('seguir');
-
+				desactivarVistas(["avanzar","luchar","comprar","seguir"]);
+				activarVistas(['gameOver']);
 			}
 		}
 
@@ -246,8 +229,8 @@
 				setTimeout(function(){
 					$('#eventos').text("Encuentras una bolsa con "+oro+ " de oro");
 					heroe.oro = heroe.oro + oro;
-					activarVista('seguir');
-					desactivarVista('datosMonstruo');
+					desactivarVistas(['datosMonstruo']);
+					activarVistas(['seguir']);
 				},3000);
 			}else if(item >=3 && item <=5){
 
@@ -257,15 +240,15 @@
 				setTimeout(function(){
 					$('#eventos').text("Encuentras una pocion de "+vida+ " de vida");
 					heroe.vida = heroe.vida + vida;
-					activarVista('seguir');
-					desactivarVista('datosMonstruo');
+					activarVistas(['seguir']);
+					desactivarVistas(['datosMonstruo']);
 				},3000);
 			}else{
 
 				setTimeout(function(){
 					$('#eventos').text("Encuentras un cofre lleno de telarañas");
-					activarVista('seguir');
-					desactivarVista('datosMonstruo');
+					activarVistas(['seguir']);
+					desactivarVistas(['datosMonstruo']);
 					
 				},3000);
 			}
@@ -305,18 +288,18 @@
 			return numeroAleatorio;
 		}
 
-		function activarVista(id){
-
-			$('#'+ id).removeClass('oculto');
-			$('#'+id).addClass("visible");
-
+		function activarVistas(vistas){
+			$.each(vistas,function(index,value){
+				$('#'+ value).removeClass('oculto');
+				$('#'+value).addClass("visible");	
+			});
 		}
 
-		function desactivarVista(id){
-
-			$('#'+ id).removeClass('visible');
-			$('#'+id).addClass("oculto");
-
+		function desactivarVistas(vistas){
+			$.each(vistas,function(index,value){
+				$('#'+ value).removeClass('visible');
+				$('#'+value).addClass("oculto");
+			});
 		}
 
 		// cuando le damos al botón seguir una vez derrotado al monstruo y salir victoriosos///////////////////
@@ -330,25 +313,18 @@
 
 				$('#eventos').text("Te has encontrado con un monstruo");
 				var monstruo = generarMonstruo(getNivel());
-				console.log(monstruo);
 
 				$('#vidaMonstruo').text("Vida: "+monstruo.vida);
 				$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
 				$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
 				$('#oroMonstruo').text("Oro: "+monstruo.oro);
 
-				activarVista('luchar');
-				activarVista('comprar');
-
+				activarVistas(['luchar',"comprar"]);
 
 				if( monstruo.vida<=0 && heroe.vida>0){
-				desactivarVista('avanzar');
-				desactivarVista('eventos');
-				desactivarVista('luchar');
-				desactivarVista('comprar');
-				activarVista('seguir');
-
-			}
+					desactivarVistas(["avanzar","eventos","luchar","comprar"])
+					activarVistas(["seguir"]);
+				}
 
 			}else if (tiradaDado >=10 && tiradaDado<=15){
 
@@ -368,14 +344,16 @@
 						if(heroe.vida<=0){
 
 							$('#eventos').text("¡¡¡Has muerto!!!");
-							activarVista('gameOver');
-							desactivarVista('datosMonstruo');
-							desactivarVista('luchar');
-							desactivarVista('comprar');
-							desactivarVista('seguir');
-							desactivarVista('avanzar');
+							desactivarVistas([
+								"avanzar",
+								"seguir",
+								"luchar",
+								"comprar",
+								"datosMonstruo"
+							]);
+							activarVistas(['gameOver']);
 						}else{
-							activarVista('seguir');
+							activarVistas(['seguir']);
 						}
 				}
 				, 6000);
@@ -386,10 +364,8 @@
 				heroe = generarTesoro(heroe, getNivel());
 
 				setTimeout(function(){
-				desactivarVista('datosMonstruo');
-				desactivarVista('comprar');	
-				desactivarVista('luchar');
-				activarVista('seguir');
+					activarVistas(['seguir']);
+					desactivarVistas(["datosMonstruo","luchar","comprar"])
 				}
 				, 3000);
 			}else if (tiradaDado >=19  && tiradaDado<=20){
@@ -408,7 +384,7 @@
 
 			}else if (tiradaDado <10 && tiradaDado>15){
 
-				activarVista('comprar');
+					activarVistas(['comprar']);
 
 			}else{
 
@@ -430,33 +406,34 @@
 			
 			if(tiradaDado >=10 && tiradaDado<=15){
 
-			desactivarVista('luchar');
-			desactivarVista('comprar');
-			desactivarVista('avanzar');
-			desactivarVista('seguir');
+				desactivarVistas([
+					"avanzar",
+					"seguir",
+					"luchar",
+					"comprar"
+				]);
 
 			}else if(tiradaDado >=16 && tiradaDado<=19){
 
-				desactivarVista('datosMonstruo');
-				desactivarVista('comprar');	
-				desactivarVista('luchar');
-				desactivarVista('avanzar');
-				desactivarVista('seguir');
-
+				desactivarVistas([
+					"avanzar",
+					"seguir",
+					"luchar",
+					"comprar",
+					"datosMonstruo"
+				]);
 
 			}else{
 
-			activarVista('datosHeroe');
-			activarVista('datosMonstruo');
+			desactivarVistas(['avanzar',"seguir"]);
+			activarVistas([
+				"datosHeroe",
+				"datosMonstruo",	
+				"luchar",
+				"comprar"
+			]);
 
-			desactivarVista('avanzar');
-			activarVista('luchar');
-			activarVista('comprar');
-			desactivarVista('seguir');
-			
 			}
-			
-	
 
 		});
 
@@ -477,7 +454,7 @@
 
 			if(heroe.oro<3){
 
-				desactivarVista('comprar');
+				desactivarVistas(['comprar']);
 
 			}
 
