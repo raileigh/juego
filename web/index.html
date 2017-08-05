@@ -1,19 +1,465 @@
-
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8"/>   
-		<title>Juego de Rol</title>
-	</head>
-	<body background="fondo.jpg">
-		<FORM action="..." method="post">
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<meta charset="UTF-8">
+	<script
+	src="https://code.jquery.com/jquery-3.2.1.js"
+	integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+	crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<style type="text/css">
+		
+		.visible{
 
-			<h1 style="text-align: center">EL MONTE DEL DESTINO</h1>
-			<br>
-			<h3 style="text-align: center">INTRODUZCA NOMBRE DE JUGADOR</h3>
-			<LABEL for="nombre">Nombre: </LABEL>
-			<INPUT type="text" id="nombre"> <INPUT type="submit" value="Enviar"><BR>
-		</FORM>
-	</body>
+			display:block;
 
+		}
+
+		.oculto{
+
+			display:none;
+
+		}
+
+	</style>
+	<title>JUEGO</title>
+</head>
+<body background="imagenes/fondo2a.jpg" width="30" height="50">
+	<div class="visible">
+		<form id="formulario"> 
+			<label>INTRODUCE UN NOMBRE PARA TU HEROE</label>
+			<input type="text" name="">
+			<button  id="botonNombre" class="btn btn-default" type="submit" value="Aceptar">Enviar</button>
+		</form>
+	</div>
+	<!--CAPA INVENTARIO -->
+	<div id="datosHeroe" class= "oculto">Mi nombre es <span id="nombreHeroe"></span>, el mejor guerrero de las montañas heladas, también apodado como "el guerrero olvidado".
+
+		<ul>
+			<li id="vidaHeroe"></li>
+			<li id="ataqueHeroe"></li>
+			<li id="defensaHeroe"></li>
+			<li id="oroHeroe"></li>
+		</ul>
+
+	</div>
+	<div id="datosMonstruo" class= "oculto"> <span id="nombreMonstruo"></span>
+
+		<ul>
+			<li id="vidaMonstruo"></li>
+			<li id="ataqueMonstruo"></li>
+			<li id="defensaMonstruo"></li>
+			<li id="oroMonstruo"></li>
+		</ul>
+		<button id="luchar">Luchar</button>
+		<button id="comprar">Comprar Pócima</button>
+	</div>
+	<div id="eventos"></div>
+	<div id="gameOver" class="oculto">
+
+		<H1>FIN DEL JUEGO</H1>
+	</div>
+	<div id="avanzar" class="oculto">
+
+		<H1>SUPERAS AL MONSTRUO Y SIGUES HACIA ADELANTE</H1>
+	</div>
+	<div id="seguir" class= "oculto">
+		<button id="next">Seguir</button>
+	</div>
+
+	<script type="text/javascript">
+
+		var heroe;
+		var monstruo;
+		var nivel;
+
+
+		document.getElementById("botonNombre").addEventListener("click", function(event){
+
+			event.preventDefault();
+
+			$('#formulario').removeClass('visible');
+			$('#formulario').addClass('oculto');
+
+			// Hacemos set del nivel de inicio del juego
+			var nivel = 3;
+			setNivel(nivel);
+			
+			var nombre = $('#formulario input').val();
+			$('#nombreHeroe').text(nombre);
+
+			var heroe = generarHeroe();
+			
+
+			$('#vidaHeroe').text("Vida: "+heroe.vida);
+			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
+			$('#defensaHeroe').text("Defensa: "+heroe.defensa);
+			$('#oroHeroe').text("Oro: "+heroe.oro);
+
+			activarVistas(["datosHeroe","seguir"]);	
+
+		});
+
+
+		document.getElementById("luchar").addEventListener("click", function(){
+
+			var heroe = getHeroe();
+			var monstruo = getMonstruo();
+
+			luchaHeroe(heroe,monstruo);
+			//luchaMonstruo(monstruo,heroe);
+
+			$('#vidaHeroe').text("Vida: "+heroe.vida);
+			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
+			$('#defensaHeroe').text("Defensa: "+heroe.defensa);
+			$('#oroHeroe').text("Oro: "+heroe.oro);
+			$('#vidaMonstruo').text("Vida: "+monstruo.vida);
+			$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
+			$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
+			$('#oroMonstruo').text("Oro: "+monstruo.oro);
+
+			activarVistas(["datosHeroe","datosMonstruo"]);	
+
+		});
+
+		function generarHeroe(){
+			heroe = {"vida":3,"ataque":3,"defensa":4,"oro":10};
+			return heroe;
+		}
+
+		function getHeroe(){
+			return heroe;
+		}
+
+		function getMonstruo(){
+			return monstruo;
+		}
+
+		function generarMonstruo(nivelActual){
+			monstruo = {
+				"vida": generaRandom(1,nivelActual),
+				"ataque":generaRandom(1,nivelActual),
+				"defensa":generaRandom(1,nivelActual),
+				"oro":generaRandom(1,nivelActual)
+			};
+			return monstruo;
+		}
+		
+		function setNivel(nuevoNivel){
+			nivel = nuevoNivel;
+		}
+		
+		function getNivel(){
+			return nivel;
+		}
+
+
+		function luchaHeroe(heroe,monstruo){
+
+			// Ataque Heroe
+			var defensaMonstruo = monstruo.defensa - (heroe.ataque+generaRandom(1,6));
+
+			if (defensaMonstruo <0){
+
+				var danio = defensaMonstruo;
+				monstruo.vida = monstruo.vida + danio;
+
+			}
+
+
+			// Ataque Monstruo 
+
+			var defensaHeroe = heroe.defensa - (monstruo.ataque+generaRandom(1,6));
+
+			if (defensaHeroe <0){
+
+				var danio = defensaHeroe;
+				heroe.vida = heroe.vida + danio;
+
+
+			}
+
+			///////////////////////////////CONDICIÓN PARA OBTENER ORO DEL MONSTRUO///////////////////////////////////
+
+			var oroMonstruo = monstruo.oro;
+
+			if( monstruo.vida<=0 && heroe.vida>0){
+				
+				var oro = oroMonstruo;
+				heroe.oro = heroe.oro + oro;
+				monstruo.oro = monstruo.oro - oro;
+
+
+			}
+
+
+			if( heroe.vida<=0){
+				
+				$('#eventos').text("¡¡¡Has muerto!!!");
+				activarVistas(['gameOver']);
+				desactivarVistas(["datosHeroe","datosMonstruo","luchar","comprar"]);
+			}
+
+			// Este bloque hay que hacerlo para el monstruo
+
+			if( monstruo.vida<=0){
+				desactivarVistas(["luchar","comprar"]);
+				activarVistas(["avanzar","seguir"]);
+			}
+
+			// si los dos mueren
+
+			if( monstruo.vida<=0 && heroe.vida<=0){
+
+				desactivarVistas(["avanzar","luchar","comprar","seguir"]);
+				activarVistas(['gameOver']);
+			}
+		}
+
+		function generarTesoro(heroe,nivelActual){
+
+			var item = generaRandom(1,10);
+			
+			if(item >=1 && item <=2){
+
+				var oro = generaRandom(0,nivelActual);
+				heroe.oro = heroe.oro + oro;
+				
+				setTimeout(function(){
+					$('#eventos').text("Encuentras una bolsa con "+oro+ " de oro");
+					heroe.oro = heroe.oro + oro;
+					desactivarVistas(['datosMonstruo']);
+					activarVistas(['seguir']);
+				},3000);
+			}else if(item >=3 && item <=5){
+
+				var vida =generaRandom(0,nivelActual);
+				heroe.vida = heroe.vida + vida;
+				
+				setTimeout(function(){
+					$('#eventos').text("Encuentras una pocion de "+vida+ " de vida");
+					heroe.vida = heroe.vida + vida;
+					activarVistas(['seguir']);
+					desactivarVistas(['datosMonstruo']);
+				},3000);
+			}else{
+
+				setTimeout(function(){
+					$('#eventos').text("Encuentras un cofre lleno de telarañas");
+					activarVistas(['seguir']);
+					desactivarVistas(['datosMonstruo']);
+					
+				},3000);
+			}
+
+			return heroe;
+
+		}
+
+		function generarTrampa(){
+			var nivelTrampa = generaRandom(1,3);
+			switch(nivelTrampa){
+				case 1:
+				danioTrampa = generaRandom(1,3);
+				break;
+
+				case 2:
+				danioTrampa = generaRandom(4,8);
+				break;
+				case 3:
+				danioTrampa = generaRandom(9,10);
+				break;
+
+				default:
+				danioTrampa = 5;
+			}
+
+			return danioTrampa;
+		}
+
+		function subirEscalera(nivelActual){
+			setNivel(nivelActual+1);
+		}
+
+		function generaRandom(min,max){
+			max=max + 1;
+			var numeroAleatorio = Math.floor((Math.random() * (max-min)+min));
+			return numeroAleatorio;
+		}
+
+		function activarVistas(vistas){
+			$.each(vistas,function(index,value){
+				$('#'+ value).removeClass('oculto');
+				$('#'+value).addClass("visible");	
+			});
+		}
+
+		function desactivarVistas(vistas){
+			$.each(vistas,function(index,value){
+				$('#'+ value).removeClass('visible');
+				$('#'+value).addClass("oculto");
+			});
+		}
+
+		// cuando le damos al botón seguir una vez derrotado al monstruo y salir victoriosos///////////////////
+
+		document.getElementById("next").addEventListener("click", function(event){
+			
+			
+			var tiradaDado = generaRandom(1,20);
+
+			if(tiradaDado >=0 && tiradaDado <=9){
+
+				$('#eventos').text("Te has encontrado con un monstruo");
+				var monstruo = generarMonstruo(getNivel());
+
+				$('#vidaMonstruo').text("Vida: "+monstruo.vida);
+				$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
+				$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
+				$('#oroMonstruo').text("Oro: "+monstruo.oro);
+
+				activarVistas(['luchar',"comprar"]);
+
+				if( monstruo.vida<=0 && heroe.vida>0){
+					desactivarVistas(["avanzar","eventos","luchar","comprar"])
+					activarVistas(["seguir"]);
+				}
+
+			}else if (tiradaDado >=10 && tiradaDado<=15){
+
+				var danioTrampa = generarTrampa();
+				$('#eventos').text("¡¡¡Has caido en una trampa!!!");
+
+				setTimeout(function(){
+					$('#eventos').text("Has perdido : " + danioTrampa + " puntos de vida.");
+					heroe.vida = heroe.vida - danioTrampa;
+
+					$('#vidaHeroe').text("Vida: "+heroe.vida);
+					
+				}
+				, 3000);// inyectar un carrusel de eventos para avisar lo que esta pasando al jugador
+
+				setTimeout(function(){
+					if(heroe.vida<=0){
+
+						$('#eventos').text("¡¡¡Has muerto!!!");
+						desactivarVistas([
+							"avanzar",
+							"seguir",
+							"luchar",
+							"comprar",
+							"datosMonstruo"
+							]);
+						activarVistas(['gameOver']);
+					}else{
+						activarVistas(['seguir']);
+					}
+				}
+				, 6000);
+
+			}else if(tiradaDado >=16 && tiradaDado<19){
+
+				$('#eventos').text("Has encontrado un misterioso cofre, ¿que tendrá?");
+				heroe = generarTesoro(heroe, getNivel());
+
+				setTimeout(function(){
+					activarVistas(['seguir']);
+					desactivarVistas(["datosMonstruo","luchar","comprar"])
+				}
+				, 3000);
+			}else if (tiradaDado >=19  && tiradaDado<=20){
+
+				
+				subirEscalera(getNivel());
+				var monstruo = generarMonstruo(getNivel());
+				
+
+				$('#eventos').text("Has encontrado una escalera, ten cuidado");
+				$('#vidaMonstruo').text("Vida: "+monstruo.vida);
+				$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
+				$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
+				$('#oroMonstruo').text("Oro: "+monstruo.oro);
+				activarVistas(['seguir']);
+
+
+			}else if (tiradaDado <10 && tiradaDado>15){
+
+				activarVistas(['comprar']);
+
+			}else{
+
+				document.write("Se ha producido un error en la aplicación, contacte con el administrador");
+
+			}
+			
+
+			//console.log(monstruo);
+
+
+			
+			$('#vidaHeroe').text("Vida: "+heroe.vida);
+			$('#ataqueHeroe').text("Ataque: "+heroe.ataque);
+			$('#defensaHeroe').text("Defensa: "+heroe.defensa);
+			$('#oroHeroe').text("Oro: "+heroe.oro);
+
+			//estos casos son mientras se esta cargando el Timeout haga esto hasta la resolución del tiempo puesto.
+			
+			if(tiradaDado >=10 && tiradaDado<=15){
+
+				desactivarVistas([
+					"avanzar",
+					"seguir",
+					"luchar",
+					"comprar"
+					]);
+
+			}else if(tiradaDado >=16 && tiradaDado<=19){
+
+				desactivarVistas([
+					"avanzar",
+					"seguir",
+					"luchar",
+					"comprar",
+					"datosMonstruo"
+					]);
+
+			}else{
+
+				desactivarVistas(['avanzar',"seguir"]);
+				activarVistas([
+					"datosHeroe",
+					"datosMonstruo",	
+					"luchar",
+					"comprar"
+					]);
+
+			}
+
+		});
+
+		//Cuando le damos al botón comprar pócima///////////////////////////////////////////////////////
+
+		document.getElementById("comprar").addEventListener("click", function(event){
+			
+			
+			var pocion = generaRandom(1,3);
+			heroe.vida = heroe.vida + pocion;
+			$('#vidaHeroe').text("Vida: "+heroe.vida);
+			
+			var oroHeroe = heroe.oro;
+			var costePocion = oroHeroe - 3;
+			heroe.oro = costePocion;
+			
+			$('#oroHeroe').text("Oro: "+heroe.oro);
+
+			if(heroe.oro<3){
+
+				desactivarVistas(['comprar']);
+
+			}
+
+		});
+	</script>
+</body>
 </html>
-
