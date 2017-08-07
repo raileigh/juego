@@ -22,65 +22,78 @@
 
 		}
 
+		.enfrente_capa {
+			position: relative;
+			z-index: 0;
+		}
+
+		.atras_capa {
+			opacity: 0.4;
+			position: relative;
+			z-index: 1;
+		}
+
 	</style>
 	<title>JUEGO</title>
 </head>
-<body background="imagenes/fondo2a.jpg" width="30" height="50">
+<body background="imagenes/fondo5a.jpg" width="30" height="50">
 	<div class="visible">
-		<form id="formulario"> 
-			<label>INTRODUCE UN NOMBRE PARA TU HEROE</label>
-			<input type="text" name="">
-			<button  id="botonNombre" class="btn btn-default" type="submit" value="Aceptar">Enviar</button>
-		</form>
-	</div>
-	<!--CAPA INVENTARIO -->
-	<div id="datosHeroe" class= "oculto">Mi nombre es <span id="nombreHeroe"></span>, el mejor guerrero de las montañas heladas, también apodado como "el guerrero olvidado".
+				<form id="formulario" class= "col-xs-12"> 
+					<div style="padding-top:5%;padding-left: 32%; text-align:center" class= "col-xs-8" >
+						<input type="text" class="form-control" placeholder="INTRODUCE TU NOMBRE DE HEROE" style="text-align:center">
+						<button  id="botonNombre" class="btn btn-default" type="submit" value="Aceptar" style="margin-top:5%; text-align:center">Enviar</button>
+					</div>
+				</form>
+			</div>
+			<!--CAPA INVENTARIO -->
+			<div style="text-align: center; padding-top: 10%; font-weight: bold;">
+			<div id="datosHeroe" class= "oculto">Mi nombre es <span id="nombreHeroe"></span>, el mejor guerrero de las montañas heladas, también apodado como "el guerrero olvidado".
 
-		<ul>
-			<li id="vidaHeroe"></li>
-			<li id="ataqueHeroe"></li>
-			<li id="defensaHeroe"></li>
-			<li id="oroHeroe"></li>
-		</ul>
+				<ul style="padding-top: 2%; padding-right: 3%">
+					<li id="vidaHeroe" style="list-style: none"></li>
+					<li id="ataqueHeroe"  style="list-style: none"></li>
+					<li id="defensaHeroe"  style="list-style: none"></li>
+					<li id="oroHeroe"  style="list-style: none"></li>
+				</ul>
 
-	</div>
-	<div id="datosMonstruo" class= "oculto"> <span id="nombreMonstruo"></span>
+			</div>
+			<div id="datosMonstruo" class= "oculto"> <span id="nombreMonstruo"></span>
 
-		<ul>
-			<li id="vidaMonstruo"></li>
-			<li id="ataqueMonstruo"></li>
-			<li id="defensaMonstruo"></li>
-			<li id="oroMonstruo"></li>
-		</ul>
-		<button id="luchar">Luchar</button>
-		<button id="comprar">Comprar Pócima</button>
-	</div>
-	<div id="eventos"></div>
-	<div id="gameOver" class="oculto">
+				<ul style="padding-top: 2%; padding-right: 4%">
+					<li id="vidaMonstruo" style="list-style: none"></li>
+					<li id="ataqueMonstruo" style="list-style: none"></li>
+					<li id="defensaMonstruo" style="list-style: none"></li>
+					<li id="oroMonstruo" style="list-style: none"></li>
+				</ul>
+				<button id="luchar" style="margin-left:47%">Luchar</button>
+				<button id="comprar" style="margin-left:45%; margin-top: 8px">Comprar Pócima</button>
+			</div>
+			<div id="eventos"></div>
+			<div id="gameOver" class="oculto">
 
-		<H1>FIN DEL JUEGO</H1>
-	</div>
-	<div id="avanzar" class="oculto">
+				<H1>FIN DEL JUEGO</H1>
+			</div>
+			<div id="avanzar" class="oculto">
 
-		<H1>SUPERAS AL MONSTRUO Y SIGUES HACIA ADELANTE</H1>
-	</div>
-	<div id="seguir" class= "oculto">
-		<button id="next">Seguir</button>
-	</div>
+				<H1>SUPERAS AL MONSTRUO Y SIGUES HACIA ADELANTE</H1>
+			</div>
+			<div id="seguir" class= "oculto">
+				<button id="next">Seguir</button>
+			</div>
 
-	<script type="text/javascript">
+			<script type="text/javascript">
 
-		var heroe;
-		var monstruo;
-		var nivel;
+				var heroe;
+				var monstruo;
+				var nivel;
 
 
-		document.getElementById("botonNombre").addEventListener("click", function(event){
+				document.getElementById("botonNombre").addEventListener("click", function(event){
 
-			event.preventDefault();
+					event.preventDefault();
 
-			$('#formulario').removeClass('visible');
-			$('#formulario').addClass('oculto');
+					$('#formulario').removeClass('visible');
+					$('#formulario').addClass('oculto');
 
 			// Hacemos set del nivel de inicio del juego
 			var nivel = 3;
@@ -102,12 +115,12 @@
 		});
 
 
-		document.getElementById("luchar").addEventListener("click", function(){
+				document.getElementById("luchar").addEventListener("click", function(){
 
-			var heroe = getHeroe();
-			var monstruo = getMonstruo();
+					var heroe = getHeroe();
+					var monstruo = getMonstruo();
 
-			luchaHeroe(heroe,monstruo);
+					luchaHeroe(heroe,monstruo);
 			//luchaMonstruo(monstruo,heroe);
 
 			$('#vidaHeroe').text("Vida: "+heroe.vida);
@@ -123,39 +136,39 @@
 
 		});
 
-		function generarHeroe(){
-			heroe = {"vida":3,"ataque":3,"defensa":4,"oro":10};
-			return heroe;
-		}
+				function generarHeroe(){
+					heroe = {"vida":3,"ataque":3,"defensa":4,"oro":10};
+					return heroe;
+				}
 
-		function getHeroe(){
-			return heroe;
-		}
+				function getHeroe(){
+					return heroe;
+				}
 
-		function getMonstruo(){
-			return monstruo;
-		}
+				function getMonstruo(){
+					return monstruo;
+				}
 
-		function generarMonstruo(nivelActual){
-			monstruo = {
-				"vida": generaRandom(1,nivelActual),
-				"ataque":generaRandom(1,nivelActual),
-				"defensa":generaRandom(1,nivelActual),
-				"oro":generaRandom(1,nivelActual)
-			};
-			return monstruo;
-		}
-		
-		function setNivel(nuevoNivel){
-			nivel = nuevoNivel;
-		}
-		
-		function getNivel(){
-			return nivel;
-		}
+				function generarMonstruo(nivelActual){
+					monstruo = {
+						"vida": generaRandom(1,nivelActual),
+						"ataque":generaRandom(1,nivelActual),
+						"defensa":generaRandom(1,nivelActual),
+						"oro":generaRandom(1,nivelActual)
+					};
+					return monstruo;
+				}
+
+				function setNivel(nuevoNivel){
+					nivel = nuevoNivel;
+				}
+
+				function getNivel(){
+					return nivel;
+				}
 
 
-		function luchaHeroe(heroe,monstruo){
+				function luchaHeroe(heroe,monstruo){
 
 			// Ataque Heroe
 			var defensaMonstruo = monstruo.defensa - (heroe.ataque+generaRandom(1,6));
@@ -461,5 +474,6 @@
 
 		});
 	</script>
+	</div>
 </body>
 </html>
