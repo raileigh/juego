@@ -46,50 +46,77 @@
 	<title>JUEGO</title>
 </head>
 <body background="imagenes/fondo5a.jpg" width="30" height="50">
-<div class="atras_capa">
-	<div class="enfrente_capa">
-		<div class= "visible">
-			<form id="formulario" class= "col-xs-12"> 
-				<div style="padding-top:5%;padding-left: 32%; text-align:center" class= "col-xs-8" >
-					<input type="text" class="form-control" placeholder="INTRODUCE TU NOMBRE DE HEROE" style="text-align:center">
-					<button  id="botonNombre" class="btn btn-default" type="submit" value="Aceptar" style="margin-top:5%; text-align:center">Enviar</button>
+	<div class="atras_capa">
+		<div class="enfrente_capa">
+			<div class= "visible">
+				<form id="formulario" class= "col-xs-12"> 
+					<div style="padding-top:5%;padding-left: 32%; text-align:center" class= "col-xs-8" >
+						<input type="text" class="form-control" placeholder="INTRODUCE TU NOMBRE DE HEROE" style="text-align:center">
+						<button  id="botonNombre" class="btn btn-default" type="submit" value="Aceptar" style="margin-top:5%; text-align:center">Enviar</button>
+					</div>
+				</form>
+			</div>
+			<!--CAPA INVENTARIO -->
+			<div class="col-xs-12" style="text-align: center; padding-top: 10%; font-weight: bold;">
+				<div class="col-xs-12">
+					<div class="col-xs-6">
+						<div id="datosHeroe" class= "oculto">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Mi nombre es <span id="nombreHeroe"></span>, el mejor guerrero de las montañas heladas, también apodado como "el guerrero olvidado".</h3>
+								</div>
+								<div class="panel-body"><img src="imagenes/helmet.png" style="padding-top: 1%">
+								<br>
+								<ul style="padding-top: 2%; padding-right: 3%">
+										<li id="vidaHeroe" style="list-style: none; padding-right: 9%"></li>
+										<li id="ataqueHeroe"  style="list-style: none; padding-right: 9%"></li>
+										<li id="defensaHeroe"  style="list-style: none; padding-right: 9%"></li>
+										<li id="oroHeroe"  style="list-style: none; padding-right: 9%"></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="col-xs-6">
+							<div id="datosMonstruo" class= "oculto"><span id="nombreMonstruo"></span>
+								<div class="panel panel-default">
+									<div class="panel-heading" style="padding-top: 28px">
+										<h3 class="panel-title" >¡ESTE ES TU FINAL!.</h3>
+									</div>
+									<div class="panel-body"><img src="imagenes/monster.png">
+										<ul style="padding-top: 2%; padding-right: 38px">
+											<li id="vidaMonstruo" style="list-style: none"></li>
+											<li id="ataqueMonstruo" style="list-style: none"></li>
+											<li id="defensaMonstruo" style="list-style: none"></li>
+											<li id="oroMonstruo" style="list-style: none"></li>
+										</ul>
+									</div>
+								</div>
+								<br>
+								<br>
+								<br>
+							</div>
+						</div>
+					</div>
 				</div>
-			</form>
-		</div>
-		<!--CAPA INVENTARIO -->
-		<div style="text-align: center; padding-top: 10%; font-weight: bold;">
-			<div id="datosHeroe" class= "oculto">Mi nombre es <span id="nombreHeroe"></span>, el mejor guerrero de las montañas heladas, también apodado como "el guerrero olvidado".
-
-					<ul style="padding-top: 2%; padding-right: 3%">
-						<li id="vidaHeroe" style="list-style: none"></li>
-						<li id="ataqueHeroe"  style="list-style: none"></li>
-						<li id="defensaHeroe"  style="list-style: none"></li>
-						<li id="oroHeroe"  style="list-style: none"></li>
-					</ul>
+				<div class="col-xs-12">
+					<div id="grupoBoton" class= "oculto">
+						<button id="luchar" class="btn btn-default" style="margin-left:45%">Luchar</button>
+						<button id="comprar" class="btn btn-default" style="margin-left:42%; margin-top: 8px">Comprar Pócima</button>
+					</div>
+					<br>
+					<div id="eventos"></div>
+					<div id="gameOver" class="oculto">
+						<H1>FIN DEL JUEGO</H1>
+					</div>
+					<div id="avanzar" class="oculto">
+						<H1>SUPERAS AL MONSTRUO Y SIGUES HACIA ADELANTE</H1>
+					</div>
+					<div id="seguir" class= "oculto">
+						<button id="next" class="btn btn-default">Seguir</button>
+					</div>
 				</div>
-				<div id="datosMonstruo" class= "oculto"> <span id="nombreMonstruo"></span>
-					<ul style="padding-top: 2%; padding-right: 38px">
-						<li id="vidaMonstruo" style="list-style: none"></li>
-						<li id="ataqueMonstruo" style="list-style: none"></li>
-						<li id="defensaMonstruo" style="list-style: none"></li>
-						<li id="oroMonstruo" style="list-style: none"></li>
-					</ul>
-					<button id="luchar" class="btn btn-default" style="margin-left:47%">Luchar</button>
-					<button id="comprar" class="btn btn-default" style="margin-left:45%; margin-top: 8px">Comprar Pócima</button>
-				</div>
-				<div id="eventos"></div>
-				<div id="gameOver" class="oculto">
-
-					<H1>FIN DEL JUEGO</H1>
-				</div>
-				<div id="avanzar" class="oculto">
-
-					<H1>SUPERAS AL MONSTRUO Y SIGUES HACIA ADELANTE</H1>
-				</div>
-				<div id="seguir" class= "oculto">
-					<button id="next" class="btn btn-default">Seguir</button>
-				</div>
-
 				<script type="text/javascript">
 
 					var heroe;
@@ -220,13 +247,13 @@
 				
 				$('#eventos').text("¡¡¡Has muerto!!!");
 				activarVistas(['gameOver']);
-				desactivarVistas(["datosHeroe","datosMonstruo","luchar","comprar"]);
+				desactivarVistas(["datosHeroe","datosMonstruo","grupoBoton"]);
 			}
 
 			// Este bloque hay que hacerlo para el monstruo
 
 			if( monstruo.vida<=0){
-				desactivarVistas(["luchar","comprar"]);
+				desactivarVistas(["grupoBoton"]);
 				activarVistas(["avanzar","seguir"]);
 			}
 
@@ -234,7 +261,7 @@
 
 			if( monstruo.vida<=0 && heroe.vida<=0){
 
-				desactivarVistas(["avanzar","luchar","comprar","seguir"]);
+				desactivarVistas(["avanzar","grupoBoton","seguir"]);
 				activarVistas(['gameOver']);
 			}
 		}
@@ -334,6 +361,7 @@
 			if(tiradaDado >=0 && tiradaDado <=9){
 
 				$('#eventos').text("Te has encontrado con un monstruo");
+
 				var monstruo = generarMonstruo(getNivel());
 
 				$('#vidaMonstruo').text("Vida: "+monstruo.vida);
@@ -341,16 +369,17 @@
 				$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
 				$('#oroMonstruo').text("Oro: "+monstruo.oro);
 
-				activarVistas(['luchar',"comprar"]);
+				activarVistas(['grupoBoton']);
 
 				if( monstruo.vida<=0 && heroe.vida>0){
-					desactivarVistas(["avanzar","eventos","luchar","comprar"])
+					desactivarVistas(["avanzar","eventos","grupoBoton"])
 					activarVistas(["seguir"]);
 				}
 
 			}else if (tiradaDado >=10 && tiradaDado<=15){
 
 				var danioTrampa = generarTrampa();
+				
 				$('#eventos').text("¡¡¡Has caido en una trampa!!!");
 
 				setTimeout(function(){
@@ -387,7 +416,7 @@
 
 				setTimeout(function(){
 					activarVistas(['seguir']);
-					desactivarVistas(["datosMonstruo","luchar","comprar"])
+					desactivarVistas(["datosMonstruo","grupoBoton"])
 				}
 				, 3000);
 			}else if (tiradaDado >=19  && tiradaDado<=20){
