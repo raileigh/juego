@@ -97,7 +97,19 @@
 								<br>
 								<br>
 							</div>
+							<div id="cuerda" class="oculto">
+						<div class="panel panel-default">
+							<div class="panel-heading" style="padding-top: 43px"></div>
+							<div class="panel-body" style="padding-top: 53px"><img src="imagenes/rope.png"></div>
 						</div>
+					</div>
+					<div id="cofre" class="oculto">
+						<div class="panel panel-default">
+							<div class="panel-heading" style="padding-top: 43px"></div>
+							<div class="panel-body" style="padding-top: 53px"><img src="imagenes/chest.png"></div>
+						</div>
+					</div>
+					</div>
 					</div>
 				</div>
 				<div class="col-xs-12">
@@ -381,6 +393,7 @@
 				var danioTrampa = generarTrampa();
 				
 				$('#eventos').text("¡¡¡Has caido en una trampa!!!");
+				activarVistas(["cuerda"]);
 
 				setTimeout(function(){
 					$('#eventos').text("Has perdido : " + danioTrampa + " puntos de vida.");
@@ -412,6 +425,7 @@
 			}else if(tiradaDado >=16 && tiradaDado<19){
 
 				$('#eventos').text("Has encontrado un misterioso cofre, ¿que tendrá?");
+				activarVistas(["cofre"]);
 				heroe = generarTesoro(heroe, getNivel());
 
 				setTimeout(function(){
@@ -431,7 +445,7 @@
 				$('#ataqueMonstruo').text("Ataque: "+monstruo.ataque);
 				$('#defensaMonstruo').text("Defensa: "+monstruo.defensa);
 				$('#oroMonstruo').text("Oro: "+monstruo.oro);
-				activarVistas(['seguir']);
+				activarVistas(["seguir"]);
 
 
 			}else if (tiradaDado <10 && tiradaDado>15){
@@ -465,6 +479,10 @@
 					"comprar"
 					]);
 
+				activarVistas([
+					"cuerda"
+					]);
+
 			}else if(tiradaDado >=16 && tiradaDado<=19){
 
 				desactivarVistas([
@@ -473,6 +491,10 @@
 					"luchar",
 					"comprar",
 					"datosMonstruo"
+					]);
+
+				activarVistas([
+					"cofre"
 					]);
 
 			}else{
