@@ -156,6 +156,9 @@
 					</div>
 					</div>
 				</div>
+				<div id=reiniciar class="oculto">
+					<input name="reiniciar" type="button" class="btn btn-default" onclick="location.reload();" value="reiniciar" />
+					</div>
 				<script type="text/javascript">
 
 					var heroe;
@@ -291,7 +294,7 @@
 			if( heroe.vida<=0){
 				
 				$('#eventos').text("¡¡¡Has muerto!!!");
-				activarVistas(['gameOver']);
+				activarVistas(['gameOver',"reiniciar"]);
 				desactivarVistas(["datosHeroe","datosMonstruo","grupoBoton"]);
 			}
 
@@ -307,7 +310,7 @@
 			if( monstruo.vida<=0 && heroe.vida<=0){
 
 				desactivarVistas(["avanzar","grupoBoton","seguir"]);
-				activarVistas(['gameOver']);
+				activarVistas(['gameOver',"reiniciar"]);
 			}
 		}
 
@@ -449,7 +452,7 @@
 							"comprar",
 							"datosMonstruo"
 							]);
-						activarVistas(['gameOver',"pruebaSuperada"]);
+						activarVistas(['gameOver',"pruebaSuperada","reiniciar"]);
 					}else{
 						activarVistas(['seguir',"pruebaSuperada"]);
 					}
